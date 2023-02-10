@@ -5,7 +5,9 @@ const galleryRef = document.querySelector(".gallery");
 
 const galleryMarkup = createGalleryMarkup(galleryItems);
 
-galleryRef.innerHTML = galleryMarkup;
+galleryRef.insertAdjacentHTML("afterbegin", galleryMarkup);
+
+galleryRef.addEventListener("click", onGalleryItemClick);
 
 function createGalleryMarkup(galleryItems) {
   return galleryItems
@@ -22,4 +24,30 @@ function createGalleryMarkup(galleryItems) {
       </div>`;
     })
     .join("");
+}
+
+function onGalleryItemClick(event) {
+  event.preventDefault();
+
+  if (event.target.nodeName !== "IMG") {
+    return;
+  }
+  createModalMarkup(event.target);
+}
+
+function createModalMarkup({ dataset }) {
+  const modalMarkup = `<img
+            class="modal__image"
+            src="${dataset.source}"
+          />`;
+  showModal(modalMarkup);
+}
+
+function showModal(markup) {
+  basicLightbox.create(markup).show();
+
+  document.addEventListener("keydown", closeModal);
+  function closeModal(event) {
+    console.log(event);
+  }
 }
