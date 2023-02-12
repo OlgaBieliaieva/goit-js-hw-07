@@ -40,14 +40,20 @@ function createModalMarkup({ dataset }) {
             class="modal__image"
             src="${dataset.source}"
           />`;
-  showModal(modalMarkup);
+  modalHandler(modalMarkup);
 }
 
-function showModal(markup) {
-  basicLightbox.create(markup).show();
+function modalHandler(markup) {
+  const instance = basicLightbox.create(markup);
+
+  instance.show();
 
   document.addEventListener("keydown", closeModal);
+
   function closeModal(event) {
-    console.log(event);
+    if (event.code === "Escape") {
+      instance.close();
+      document.removeEventListener("keydown", closeModal);
+    }
   }
 }
