@@ -7,8 +7,6 @@ const galleryMarkup = createGalleryMarkup(galleryItems);
 
 galleryRef.insertAdjacentHTML("afterbegin", galleryMarkup);
 
-galleryRef.addEventListener("click", onGalleryItemClick);
-
 function createGalleryMarkup(galleryItems) {
   return galleryItems
     .map(({ preview, original, description }) => {
@@ -19,16 +17,7 @@ function createGalleryMarkup(galleryItems) {
     .join("");
 }
 
-function onGalleryItemClick(event) {
-  event.preventDefault();
-
-  if (event.target.nodeName !== "IMG") {
-    return;
-  }
-
-  const lightbox = new SimpleLightbox(".gallery a");
-
-  lightbox.options.captionsData = "alt";
-  lightbox.options.captionsDelay = 250;
-  lightbox.open(event.target.offsetParent);
-}
+const lightbox = new SimpleLightbox(".gallery a", {
+  captionsData: "alt",
+  captionsDelay: 250,
+});
